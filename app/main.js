@@ -6,14 +6,9 @@ import {ready} from './actions/app.js';
 import rx from 'rx';
 
 CountStore
-    .scan((acc, x) => {
-        return acc.concat(x);
-    }, [])
-    .subscribe(counts => {
+    .subscribe(count => {
         ReactDom.render(
-            <ul>
-                {counts.map(count => <Counter {...count} key={count.count}/>)}
-            </ul>,
+            <Counter {...count} key={count.count}/>,
             document.getElementById('app')
         );
     }
