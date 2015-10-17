@@ -1,6 +1,5 @@
-import increment from '../actions/increment.js';
 import { ready } from '../actions/app.js';
-import { undo, redo } from '../actions/undo-redo.js';
+import { undo, redo, increment } from '../actions/counter.js';
 import rx from 'rx';
 
 let store = new rx.Subject();
@@ -8,26 +7,30 @@ let store = new rx.Subject();
 let storeStack = increment
     .merge(ready.map(() => 'ready'))
     .merge(undo.map(() => 'undo'))
+    .merge(redo.map(() => 'redo'))
     .scan(
         (acc, value) =>
             value === 'ready' && acc ||
 
             value === 'undo' && {
-                value: acc.values[acc.values.length - 2] || 0,
-                values: acc.values.slice(0, acc.values.length - 1)
+                index: acc.index > 0 && acc.index - 1 || 0,
+                values: acc.values
+            } ||
+
+            value === 'redo' && {
+                index: acc.index < acc.values.length - 1 && acc.index + 1 || acc.values.length - 1,
+                values: acc.values
             } ||
 
             {
-                value: acc.value + 1,
-                values: acc.values.concat(acc.value + 1)
+                index: acc.index + 1,
+                values: acc.values.slice(0, acc.index + 1).concat(acc.values[acc.index] + 1)
             },
-        {value: 0, values: []}
+        {values: [0], index: 0}
     )
-    .pluck('value')
-    .filter(v => v !== undefined)
-    .distinctUntilChanged()
-    .subscribe(count => {
-        store.onNext({count: count});
+    //.tap(console.log.bind(console))
+    .subscribe(counts => {
+        store.onNext(counts);
     });
 
 export default store;

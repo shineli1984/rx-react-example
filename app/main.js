@@ -6,9 +6,9 @@ import {ready} from './actions/app.js';
 import rx from 'rx';
 
 CountStore
-    .subscribe(count => {
+    .subscribe(counts => {
         ReactDom.render(
-            <Counter {...count} key={count.count}/>,
+            <Counter {...counts}/>,
             document.getElementById('app')
         );
     }
