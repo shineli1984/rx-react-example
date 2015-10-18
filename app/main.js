@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import Counter from './components/counter.jsx';
-import CountStore from './stores/counter.js';
+import RandomNumber from './components/random-number.jsx';
+import RandomNumberStore from './stores/random-number.js';
 import {ready} from './actions/app.js';
 import rx from 'rx';
 
-CountStore
-    .subscribe(counts => {
+RandomNumberStore
+    .subscribe(randomNumbers => {
         ReactDom.render(
-            <Counter {...counts}/>,
+            <RandomNumber {...randomNumbers}/>,
             document.getElementById('app')
         );
     }

@@ -1,10 +1,12 @@
 import { ready } from '../actions/app.js';
-import { undo, redo, increment } from '../actions/counter.js';
+import { undo, redo, generate } from '../actions/random-number.js';
 import rx from 'rx';
 
-let store = new rx.Subject();
+const store = new rx.Subject();
 
-let storeStack = increment
+const randomNumber = () => Math.ceil(Math.random() * 100);
+
+const storeStack = generate
     .merge(ready.map(() => 'ready'))
     .merge(undo.map(() => 'undo'))
     .merge(redo.map(() => 'redo'))
@@ -24,13 +26,13 @@ let storeStack = increment
 
             {
                 index: acc.index + 1,
-                values: acc.values.slice(0, acc.index + 1).concat(acc.values[acc.index] + 1)
+                values: acc.values.slice(0, acc.index + 1).concat(randomNumber())
             },
-        {values: [0], index: 0}
+        {values: [randomNumber()], index: 0}
     )
     //.tap(console.log.bind(console))
-    .subscribe(counts => {
-        store.onNext(counts);
+    .subscribe(randomNumbers => {
+        store.onNext(randomNumbers);
     });
 
 export default store;
