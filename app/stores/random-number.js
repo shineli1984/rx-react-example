@@ -1,12 +1,11 @@
 import { ready } from '../actions/app.js';
 import { undo, redo, generate } from '../actions/random-number.js';
 import rx from 'rx';
+import seed from 'seed-random';
 
-const store = new rx.Subject();
+const randomNumber = s => Math.ceil(seed(s)() * 100);
 
-const randomNumber = () => Math.ceil(Math.random() * 100);
-
-const storeStack = generate
+const history = generate
     .merge(ready.map(() => 'ready'))
     .merge(undo.map(() => 'undo'))
     .merge(redo.map(() => 'redo'))
@@ -26,13 +25,12 @@ const storeStack = generate
 
             {
                 index: acc.index + 1,
-                values: acc.values.slice(0, acc.index + 1).concat(randomNumber())
+                values: acc.values.slice(0, acc.index + 1).concat(randomNumber(value.timeStamp))
             },
-        {values: [randomNumber()], index: 0}
-    )
-    //.tap(console.log.bind(console))
-    .subscribe(randomNumbers => {
-        store.onNext(randomNumbers);
-    });
+        {values: [], index: -1}
+    );
 
-export default store;
+const number = history
+    .map(({values, index}) => values[index]);
+
+export {number, history};

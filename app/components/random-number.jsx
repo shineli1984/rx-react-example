@@ -2,6 +2,8 @@
 
 import React from 'react';
 import { generate, undo, redo } from '../actions/random-number.js';
+import { number } from '../stores/random-number.js';
+import ReactDom from 'react-dom';
 
 export default class RandomNumber extends React.Component {
     render() {
@@ -12,7 +14,7 @@ export default class RandomNumber extends React.Component {
                 <div style={{display: "flex"}}>
                     <div>
                         <h2>Current value</h2>
-                        <div>{values[index]}</div>
+                        <div ref="currentNumber"></div>
 
                         <button onClick={generate}>Generate</button>
                         <button disabled={index === 0} onClick={undo}>Undo</button>
@@ -27,5 +29,11 @@ export default class RandomNumber extends React.Component {
                 </div>
             </div>
             ;
+    }
+
+    componentDidMount() {
+        number.subscribe(number => {
+            ReactDom.render(<span>{number}</span>, this.refs.currentNumber);
+        });
     }
 }
