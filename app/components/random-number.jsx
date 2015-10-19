@@ -1,11 +1,13 @@
 'use strict';
 
 import React from 'react';
+import Component from '../utils/component.js';
 import { generate, undo, redo } from '../actions/random-number.js';
 import { number } from '../stores/random-number.js';
 import ReactDom from 'react-dom';
 
-export default class RandomNumber extends React.Component {
+export default class RandomNumber extends Component {
+
     render() {
         const {values, index} = this.props;
 
