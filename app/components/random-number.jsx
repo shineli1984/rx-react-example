@@ -50,7 +50,7 @@ export default class RandomNumber extends Component {
 
     componentDidMount() {
         number.subscribe(number => {
-            console.log(ReactDom.render(<CurrentNumber number={number}/>, this.refs.currentNumber));
+            ReactDom.render(<CurrentNumber number={number}/>, this.refs.currentNumber);
         });
     }
 }
