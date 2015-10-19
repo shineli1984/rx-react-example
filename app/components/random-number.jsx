@@ -6,20 +6,20 @@ import { generate, undo, redo } from '../actions/random-number.js';
 import { number } from '../stores/random-number.js';
 import ReactDom from 'react-dom';
 
-const Arrow = (index, currentIndex, values) => (
+const Arrow = ({index, currentIndex, values}) => (
     <span>
         {index === currentIndex && values.length > 1 && "<=" || ""}
     </span>
 );
 
-const currentNumber = number => (
+const CurrentNumber = ({number}) => (
     <span>{number}</span>
 );
 
-const HistoryEntry = (index, currentIndex, values) => (
+const HistoryEntry = ({index, currentIndex, values}) => (
     <div>
         {values[index]}
-        {Arrow(index, currentIndex, values)}
+        {<Arrow index={index} currentIndex={currentIndex} values={values} />}
     </div>
 );
 
@@ -41,7 +41,7 @@ export default class RandomNumber extends Component {
                     </div>
                     <div style={{marginLeft: '2em'}}>
                         <h2>History</h2>
-                        {values.map((v, i) => HistoryEntry(i, index, values))}
+                        {values.map((v, i) => <HistoryEntry key={i} index={i} currentIndex={index} values={values} />)}
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@ export default class RandomNumber extends Component {
 
     componentDidMount() {
         number.subscribe(number => {
-            ReactDom.render(currentNumber(number), this.refs.currentNumber);
+            console.log(ReactDom.render(<CurrentNumber number={number}/>, this.refs.currentNumber));
         });
     }
 }
