@@ -31,6 +31,7 @@ const history = generate
     );
 
 const number = history
+    .debounce(500)
     .map(({values, index}) => values[index]);
 
 export {number, history};
