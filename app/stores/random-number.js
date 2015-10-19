@@ -31,7 +31,13 @@ const history = generate
     );
 
 const number = history
-    .debounce(500)
+    .flatMapLatest(v => {
+        // simulate a backend api call which will result in request sent earlier will come back after request sent later
+        let promise = new Promise((resolve) => {
+            setTimeout(() => resolve(v), v.index %2 * 1000);
+        });
+        return promise;
+    })
     .map(({values, index}) => values[index]);
 
 export {number, history};
