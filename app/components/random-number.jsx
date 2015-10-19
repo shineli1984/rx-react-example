@@ -7,9 +7,7 @@ import { number } from '../stores/random-number.js';
 import ReactDom from 'react-dom';
 
 const Arrow = ({index, currentIndex, values}) => (
-    <span>
-        {index === currentIndex && values.length > 1 && "<=" || ""}
-    </span>
+    <span>{'<='}</span>
 );
 
 const CurrentNumber = ({number}) => (
@@ -19,7 +17,7 @@ const CurrentNumber = ({number}) => (
 const HistoryEntry = ({index, currentIndex, values}) => (
     <div>
         {values[index]}
-        {<Arrow index={index} currentIndex={currentIndex} values={values} />}
+        {index === currentIndex && values.length > 1 && <Arrow index={index} currentIndex={currentIndex} values={values} /> || null}
     </div>
 );
 
