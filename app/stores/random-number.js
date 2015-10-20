@@ -30,11 +30,4 @@ const history = generate
         {values: [], index: -1}
     );
 
-const number = history
-    // simulate a backend api call which will result in request sent earlier will come back after request sent later
-    .flatMapLatest(v => (new Promise((resolve) => {
-        setTimeout(() => resolve(v), v.index %2 * 1000);
-    })))
-    .map(({values, index}) => values[index]);
-
-export {number, history};
+export {history};
