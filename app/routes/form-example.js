@@ -1,7 +1,7 @@
 import React from 'react';
 import {wrapper, componentWillMount} from '../utilities/wrapper.js';
 import {emailChanged, formSubmitted} from '../intents/form-example.js';
-import {data, validationErrors} from '../stores/form-example.js';
+import {data} from '../stores/form-example.js';
 
 const Error = ({error}) => <div>{error}</div>;
 

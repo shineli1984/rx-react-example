@@ -17,7 +17,7 @@ const CurrentNumber = ({number}) => (
 const HistoryEntry = ({index, currentIndex, values}) => (
     <div>
         {values[index]}
-        {index === currentIndex && values.length > 1 &&
+        {index === currentIndex && values.length > 0 &&
             <Arrow index={index} currentIndex={currentIndex} values={values} /> || null}
     </div>
 );
@@ -31,8 +31,8 @@ const RandomNumber = ({values = [], index = null}) => (
                 <CurrentNumber number={values[index]}/>
 
                 <button onClick={generate}>Generate</button>
-                <button disabled={index === 0} onClick={undo}>Undo</button>
-                <button disabled={values.length === index + 1} onClick={redo}>Redo</button>
+                <button disabled={index === null || index === -1} onClick={undo}>Undo</button>
+                <button disabled={index === null || values.length === index + 1} onClick={redo}>Redo</button>
             </div>
             <div style={{marginLeft: '2em'}}>
                 <h2>History</h2>
