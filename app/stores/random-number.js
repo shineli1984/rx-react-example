@@ -1,5 +1,5 @@
-import { ready } from '../actions/app.js';
-import { undo, redo, generate } from '../actions/random-number.js';
+import { ready } from '../intents/app.js';
+import { undo, redo, generate } from '../intents/random-number.js';
 import rx from 'rx';
 import seed from 'seed-random';
 

@@ -2,17 +2,27 @@
 
 import React from 'react';
 import ReactDom from 'react-dom';
-import {RandomNumber} from './components/random-number.jsx';
-import {history} from './stores/random-number.js';
-import {ready} from './actions/app.js';
+import {RandomNumberWrapper} from './routes/random-number.jsx';
+import {Router, Route, IndexRoute, Link} from 'react-router';
+import {ready} from './intents/app.js';
+import {FormWrapper} from './routes/form-example.js';
 
-history
-    .subscribe(randomNumbers => {
-        ReactDom.render(
-            <RandomNumber {...randomNumbers}/>,
-            document.getElementById('app')
-        );
-    }
+const App = ({children}) => (
+    <div>
+        <div><Link to="/">Random number</Link></div>
+        <div><Link to="/form-example">Form example</Link></div>
+        <div>{children}</div>
+    </div>
+);
+
+ReactDom.render(
+    <Router>
+        <Route path="/" component={App}>
+            <IndexRoute component={RandomNumberWrapper} />
+            <Route path="form-example" component={FormWrapper} />
+        </Route>
+    </Router>,
+    document.getElementById('app')
 );
 
 ready.onNext();
