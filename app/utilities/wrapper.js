@@ -7,7 +7,7 @@ import React from 'react';
  * @param subjects
  * @returns {*}
  */
-const wrapper = (componentName, subjects) => {
+const subscribe = (componentName, subjects) => {
     return React.createClass({
         componentWillMount: function() {
             this.disposables = subjects.map(subject => subject.subscribe(partialState => {
@@ -24,4 +24,4 @@ const wrapper = (componentName, subjects) => {
     });
 };
 
-export {wrapper};
+export {subscribe};

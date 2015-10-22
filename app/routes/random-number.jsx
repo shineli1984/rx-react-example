@@ -2,9 +2,8 @@
 
 import React from 'react';
 import {generate, undo, redo} from '../intents/random-number.js';
-import ReactDom from 'react-dom';
 import {history} from '../stores/random-number.js';
-import {wrapper} from '../utilities/wrapper.js';
+import {subscribe} from '../utilities/wrapper.js';
 
 const Arrow = ({index, currentIndex, values}) => (
     <span>{'<='}</span>
@@ -42,6 +41,6 @@ const RandomNumber = ({values = [], index = null}) => (
     </div>
 );
 
-const RandomNumberWrapper = wrapper(RandomNumber, [history]);
+const RandomNumberWrapper = subscribe(RandomNumber, [history]);
 
 export {RandomNumberWrapper}

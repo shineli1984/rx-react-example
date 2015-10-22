@@ -1,12 +1,12 @@
 'use strict';
-import rx from 'rx';
+import Rx from 'rx';
 
-const create = function(numberOfEvents = 1) {
+const create = function(numberOfEvents = 1, clone = false) {
     function subject(value) {
-        subject.onNext(value);
+        subject.onNext(clone && Object.assign({}, value) || value);
     }
 
-    for (var key in Rx.ReplaySubject.prototype) {
+    for (let key in Rx.ReplaySubject.prototype) {
         subject[key] = Rx.ReplaySubject.prototype[key];
     }
 

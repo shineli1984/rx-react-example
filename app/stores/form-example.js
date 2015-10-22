@@ -1,6 +1,6 @@
 import validate from 'validate.js';
 import update from 'react-addons-update';
-import {emailChanged, formSubmitted} from '../intents/form-example.js';
+import {emailChanged} from '../intents/form-example.js';
 
 const validations = {
     email: {

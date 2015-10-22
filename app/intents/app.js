@@ -1,3 +1,3 @@
-import rx from 'rx';
+import Rx from 'rx';
 
-export const ready = new rx.Subject();
+export const ready = new Rx.Subject();

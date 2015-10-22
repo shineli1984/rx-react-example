@@ -1,12 +1,12 @@
 import { undo, redo, generate } from '../intents/random-number.js';
 import seed from 'seed-random';
-import FuncSubject from '../utilities/replay-func-subject.js';
 
 const randomNumber = s => Math.ceil(seed(s)() * 100);
 
 const history = generate
     .merge(undo.map(() => 'undo'))
     .merge(redo.map(() => 'redo'))
+    .shareReplay()
     .scan(
         (acc, value) =>
             value === 'undo' && {
