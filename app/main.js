@@ -24,13 +24,13 @@ const App = ({children}) => (
     </div>
 );
 
-const convertListener = (obj, funcationName) => {
+const convertListener = (obj, functionName) => {
     const ob = new Rx.Subject();
 
     const cbWrapper = (...args) => {
         ob.onNext(args);
     };
-    obj[funcationName](cbWrapper);
+    obj[functionName](cbWrapper);
 
     return ob;
 };
