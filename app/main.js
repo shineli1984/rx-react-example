@@ -6,7 +6,7 @@ import ReactDom from 'react-dom';
 import {RandomNumberWrapper} from './routes/random-number.jsx';
 import {Router, Route, IndexRoute, Link} from 'react-router';
 import {ready} from './intents/app.js';
-import {FormWrapper} from './routes/form-example.js';
+import {FormWrapper} from './routes/form-example.jsx';
 
 Rx.config.longStackSupport = true;
 
