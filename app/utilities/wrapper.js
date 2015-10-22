@@ -1,7 +1,5 @@
 import React from 'react';
-import monet from 'monet';
 import Rx from 'rx';
-import {RouteContext, Lifecycle} from 'react-router';
 
 /**
  * this is to wire subjects together with lifecycle events of a component
@@ -10,7 +8,7 @@ import {RouteContext, Lifecycle} from 'react-router';
  * @param subjects
  * @returns {*}
  */
-const subscribe = (component, subjects = [], lifecycleSubjects = {}) => {
+const subscribe = (component, subjects = []) => {
 
     return React.createClass({
         componentWillMount: function() {
@@ -18,10 +16,9 @@ const subscribe = (component, subjects = [], lifecycleSubjects = {}) => {
                 this.setState(partialState);
             }));
 
-            monet.Maybe.fromNull(lifecycleSubjects.componentWillMount)
-                .map(
-                    subject => subject.onNext(this.props) || {}
-                );
+            if (lifecycleSubjects.componentWillMount) {
+                lifecycleSubjects.componentWillMount.onNext(this.props)
+            }
         },
 
         render: function() {
@@ -30,10 +27,10 @@ const subscribe = (component, subjects = [], lifecycleSubjects = {}) => {
 
         componentWillUnmount: function() {
             this.disposables.forEach(disposable => disposable.dispose());
-            monet.Maybe.fromNull(lifecycleSubjects.componentWillUnmount)
-                .map(
-                    subject => subject.onNext(this.props) || {}
-            );
+
+            if (lifecycleSubjects.componentWillUnmount) {
+                lifecycleSubjects.componentWillUnmount.onNext(this.props);
+            }
         }
     });
 };
