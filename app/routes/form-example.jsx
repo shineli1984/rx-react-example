@@ -18,10 +18,22 @@ const Form = ({form = {}, errors = {email: []}}) => (
     </div>
 );
 
+import rx from 'rx';
+const sub = new rx.Subject();
+
+// this is showing an example of subscribing to lifecycle events
+sub.withLatestFrom(data, props => props)
+    .subscribe(({history}) => {
+        //console.log(history);
+    });
+
 // wire up observables
 const FormWrapper = subscribe(
     Form,
-    [data]
+    [data],
+    {
+        componentWillUnmount: sub
+    }
 );
 
 export {FormWrapper};

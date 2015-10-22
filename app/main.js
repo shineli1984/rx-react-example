@@ -18,10 +18,14 @@ const App = ({children}) => (
     </div>
 );
 
+const a = (nextState, replaceState) => {
+    console.log(nextState, replaceState);
+};
+
 ReactDom.render(
     <Router>
         <Route path="/" component={App}>
-            <IndexRoute component={RandomNumberWrapper} />
+            <IndexRoute component={RandomNumberWrapper} onLeave={a} />
             <Route path="form-example" component={FormWrapper} />
         </Route>
     </Router>,
