@@ -7,6 +7,7 @@ import {RandomNumberWrapper} from './routes/random-number.jsx';
 import {Router, Route, IndexRoute, Link} from 'react-router';
 import {ready} from './intents/app.js';
 import {FormWrapper} from './routes/form-example.jsx';
+import {createHistory} from 'history';
 
 Rx.config.longStackSupport = true;
 
@@ -18,13 +19,14 @@ const App = ({children}) => (
     </div>
 );
 
+const routes = (
+    <Route path="/" component={App}>
+        <IndexRoute component={RandomNumberWrapper} />
+        <Route path="form-example" component={FormWrapper} />
+    </Route>);
+
 ReactDom.render(
-    <Router>
-        <Route path="/" component={App}>
-            <IndexRoute component={RandomNumberWrapper} />
-            <Route path="form-example" component={FormWrapper} />
-        </Route>
-    </Router>,
+    <Router routes={routes} />,
     document.getElementById('app')
 );
 

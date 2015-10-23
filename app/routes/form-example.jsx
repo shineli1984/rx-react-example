@@ -18,10 +18,13 @@ const Form = ({form = {}, errors = {email: []}}) => (
     </div>
 );
 
+const routerWillLeave = () => 'Sure?';
+
 // wire up observables
 const FormWrapper = subscribe(
     Form,
-    [data]
+    [data],
+    {routerWillLeave}
 );
 
 export {FormWrapper};
