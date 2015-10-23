@@ -15,10 +15,6 @@ const subscribe = (component, subjects = []) => {
             this.disposables = subjects.map(subject => subject.subscribe(partialState => {
                 this.setState(partialState);
             }));
-
-            if (lifecycleSubjects.componentWillMount) {
-                lifecycleSubjects.componentWillMount.onNext(this.props)
-            }
         },
 
         render: function() {
@@ -27,10 +23,6 @@ const subscribe = (component, subjects = []) => {
 
         componentWillUnmount: function() {
             this.disposables.forEach(disposable => disposable.dispose());
-
-            if (lifecycleSubjects.componentWillUnmount) {
-                lifecycleSubjects.componentWillUnmount.onNext(this.props);
-            }
         }
     });
 };
