@@ -2,7 +2,7 @@ import React from 'react';
 import {subscribe} from '../utilities/wrapper.js';
 import {emailChanged} from '../intents/form-example.js';
 import {data} from '../stores/form-example.js';
-import rx from 'rx';
+import Rx from 'rx';
 
 const Error = ({error}) => <div>{error}</div>;
 
@@ -19,10 +19,18 @@ const Form = ({form = {}, errors = {email: []}}) => (
     </div>
 );
 
+const componentWillUnmount = new Rx.Subject();
+
 // wire up observables
 const FormWrapper = subscribe(
     Form,
-    [data]
+    [data],
+    {componentWillUnmount}
 );
+
+componentWillUnmount
+    .subscribe(args => {
+        console.log(args);
+    });
 
 export {FormWrapper};

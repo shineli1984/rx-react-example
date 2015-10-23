@@ -3,56 +3,44 @@
 import Rx from 'rx';
 import React from 'react';
 import ReactDom from 'react-dom';
-import {RandomNumberWrapper} from './routes/random-number.jsx';
 import {ready} from './intents/app.js';
+import {RandomNumberWrapper} from './routes/random-number.jsx';
 import {FormWrapper} from './routes/form-example.jsx';
-import createHistory from 'history/lib/createBrowserHistory';
+import {history, listen, matchPathToComponentTree} from './utilities/routing.js';
+
+import App from './routes/app.jsx'
 
 Rx.config.longStackSupport = true;
 
-const history = createHistory();
+const tree = [{
+    children: [
+        {
+            node: {
+                path: '',
+                component: RandomNumberWrapper
+            }
+        },
+        {
+            node: {
+                path: 'form-example',
+                component: FormWrapper
+            }
+        }
+    ],
+    node: {
+        path: '',
+        component: App
+    }
+}];
 
-const Link = ({href, children}) => (
-    <a href={href} onClick={(e) => e.preventDefault() || history.pushState({}, e.target.getAttribute('href'))}>{children}</a>
-);
-
-const App = ({children}) => (
-    <div>
-        <div><Link href="/">Random number</Link></div>
-        <div><Link href="/form-example">Form example</Link></div>
-        <div>{children}</div>
-    </div>
-);
-
-const convertListener = (obj, functionName) => {
-    const ob = new Rx.Subject();
-
-    const cbWrapper = (...args) => {
-        ob.onNext(args);
-    };
-    obj[functionName](cbWrapper);
-
-    return ob;
-};
-
-const listen = convertListener(history, 'listen');
-
-const listenBefore = convertListener(history, 'listenBefore');
+const matchPathToComponentTreeWithRoutes = matchPathToComponentTree(tree);
 
 listen
     .merge(Rx.Observable.just([document.location]))
-    .pluck(0, 'pathname') // location
-    .map(pathname =>
-        pathname === '/' && <RandomNumberWrapper /> ||
-        pathname === '/form-example' && <FormWrapper />
-    )
+    .pluck(0, 'pathname')
+    .map(matchPathToComponentTreeWithRoutes)
     .subscribe(component => {
-        ReactDom.render(<App>{component}</App>, document.getElementById('app'));
-    });
-
-listenBefore
-    .subscribe(args => {
-        console.log(args);
+        ReactDom.render(component, document.getElementById('app'));
     });
 
 ready.onNext();

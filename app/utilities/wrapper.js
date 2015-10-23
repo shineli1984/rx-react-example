@@ -1,5 +1,4 @@
 import React from 'react';
-import Rx from 'rx';
 
 /**
  * this is to wire subjects together with lifecycle events of a component
@@ -8,13 +7,14 @@ import Rx from 'rx';
  * @param subjects
  * @returns {*}
  */
-const subscribe = (component, subjects = []) => {
+const subscribe = (component, subjects = [], lifecycleSubjects = {}) => {
 
     return React.createClass({
         componentWillMount: function() {
             this.disposables = subjects.map(subject => subject.subscribe(partialState => {
                 this.setState(partialState);
             }));
+            this.lifecycleSubjects = lifecycleSubjects;
         },
 
         render: function() {
@@ -23,6 +23,10 @@ const subscribe = (component, subjects = []) => {
 
         componentWillUnmount: function() {
             this.disposables.forEach(disposable => disposable.dispose());
+
+            if (this.lifecycleSubjects.componentWillUnmount) {
+                this.lifecycleSubjects.componentWillUnmount.onNext(this.state);
+            }
         }
     });
 };
