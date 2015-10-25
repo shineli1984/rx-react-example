@@ -4,6 +4,8 @@ import React from 'react';
 import {generate, undo, redo} from '../intents/random-number.js';
 import {history} from '../stores/random-number.js';
 import {subscribe} from '../utilities/wrapper.js';
+import css from '../css/main.scss';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 const Arrow = ({index, currentIndex, values}) => (
     <span>{'<='}</span>
@@ -17,7 +19,7 @@ const HistoryEntry = ({index, currentIndex, values}) => (
     <div>
         {values[index]}
         {index === currentIndex && values.length > 0 &&
-            <Arrow index={index} currentIndex={currentIndex} values={values} /> || null}
+            <Arrow index={index} currentIndex={currentIndex} values={values} key={index} /> || null}
     </div>
 );
 
@@ -27,7 +29,7 @@ const RandomNumber = ({values = [], index = null}) => (
         <div style={{display: "flex"}}>
             <div>
                 <h2>Current value</h2>
-                <CurrentNumber number={values[index]}/>
+                <CurrentNumber number={values[index]} key={index}/>
 
                 <button onClick={generate}>Generate</button>
                 <button disabled={index === null || index === -1} onClick={undo}>Undo</button>
