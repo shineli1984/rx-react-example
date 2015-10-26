@@ -13,8 +13,8 @@ Rx.config.longStackSupport = true;
 
 const routes = (
     <Route path="/" component={Root}>
-        <IndexRoute component={RandomNumberWrapper} />
-        <Route path="form-example(/:email)" component={FormWrapper} />
+        <IndexRoute component={RandomNumberWrapper}/>
+        <Route path="form-example(/:email)" component={FormWrapper}/>
     </Route>);
 
 ReactDom.render(

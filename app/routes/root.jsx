@@ -7,8 +7,8 @@ const Root = ({children, location}) => (
     <div>
         <div><Link to="/">Random number</Link></div>
         <div><Link to="/form-example">Form example</Link></div>
-        <ReactCSSTransitionGroup transitionName="example" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
-            <div key={location.pathname}>
+        <ReactCSSTransitionGroup transitionName="example" transitionEnterTimeout={300} transitionLeaveTimeout={300} component='div' style={{display: 'flex', flexDirection: 'row-reverse'}}>
+            <div key={location.pathname} className={'flex-item'}>
                 {children}
             </div>
         </ReactCSSTransitionGroup>
