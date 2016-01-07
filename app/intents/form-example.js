@@ -1,5 +1,21 @@
-import FuncSubject from '../utilities/replay-func-subject.js';
+import { dispatcher } from '../stores/main.js';
 
-const emailChanged = FuncSubject.create(1);
+const intents = {
+  EMAIL_CHANGED: 'EMAIL_CHANGED'
+};
 
-export {emailChanged};
+const emailChangedAction = email => ({
+  type: intents.EMAIL_CHANGED,
+  value: email
+});
+
+const dispatchEmailChangedAction = email => dispatcher.onNext(emailChangedAction(email));
+
+const dispatchers = {
+  dispatchEmailChangedAction
+};
+
+export {
+  intents,
+  dispatchers
+};
